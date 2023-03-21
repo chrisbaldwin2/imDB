@@ -50,4 +50,4 @@ Finally, we can run the frontend
 $ python main.py [--debug] [--port <port>]
 ```
 
-You can view the frontend at `http://localhost:5001/` by default or `http://localhost:<port>/` if specified.
+You can view the frontend at `http://localhost:5001/` by default or `http://<host>:<port>/` if specified.
