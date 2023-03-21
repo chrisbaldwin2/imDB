@@ -11,6 +11,24 @@
         <p> End year: {{ data.endYear }}</p>
         <p> Runtime: {{ data.runtimeMinutes }} Minutes</p>
         <p> Genres: {{ genres|join(', ') }}</p>
+        {% if episodes %} 
+            <h3> Episodes:</h3>
+            <table>
+                <tr>
+                    {% for column in episode_labels %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in episodes %}
+                    <tr>
+                        <td><a href="{{ finder.get_url('view_title', tconst=row[0]) }}">{{ row[0] }}</a></td>
+                        {% for i in range(episode_labels|count - 1) %}
+                            <td>{{ row[i+1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
         <h3> Cast:</h3>
         <!-- Actors -->
         <div style="overflow-x:auto;">

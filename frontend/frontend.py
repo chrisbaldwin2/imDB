@@ -153,6 +153,17 @@ def view_title(tconst):
     # print(sql.get_columns('relation_writers'))
     # print(sql.get_columns('relation_genres'))
 
+    # Get episode data
+    episode_labels = ['tconst', 'primaryTitle', 'seasonNumber', 'episodeNumber']
+    episodes = sql.select(['relation_episode NATURAL JOIN title_basics'], columns=episode_labels, condition=f"parentTconst='{tconst}'")
+    # print(f'{episodes = }')
+    # sql.print_data('relation_episode')
+    if not episodes:
+        episode_labels = ['parentTconst', 'primaryTitle']
+        episodes = sql.select(['relation_episode JOIN title_basics ON relation_episode.parentTconst=title_basics.tconst'], columns=episode_labels, condition=f"relation_episode.tconst='{tconst}'")
+        # print(f'{episodes = }')
+
+
     # Get cast data
     name_labels = ['nconst', 'primaryName']
     names = sql.select(['name_basics NATURAL JOIN relation_titles'], columns=name_labels, condition=f"tconst='{tconst}'")
@@ -174,7 +185,7 @@ def view_title(tconst):
 
     environment = Environment(loader=FileSystemLoader("templates/"))
     template = environment.get_template("title.html")
-    return render_template(template, finder=finder, data=data, name_labels=name_labels, names=names, writer_labels=writer_labels, writers=writers, director_labels=director_labels, directors=directors, genre_labels=genre_labels, genres=genres)
+    return render_template(template, finder=finder, data=data, name_labels=name_labels, names=names, writer_labels=writer_labels, writers=writers, director_labels=director_labels, directors=directors, genre_labels=genre_labels, genres=genres, episode_labels=episode_labels, episodes=episodes)
 
 # Create a template to select what type of data to load
 @app.route('/load', methods=['GET', 'POST'])
@@ -216,7 +227,7 @@ def table():
             # Create subquery to join the tables
             tables = [f"""(name_basics NATURAL JOIN view_crew NATURAL JOIN title_basics)"""]
             # print(tables)
-        condition = "" if not last else f"nconst > '{last}'"
+        condition = "" if not last else f"{last[0]}const > '{last}'"
         data = sql.select(tables, columns=columns, condition=condition, limit=1000)
         return data
     columns = request.form.getlist("selected_columns")
