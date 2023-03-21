@@ -338,7 +338,7 @@ def load_data(clear_tables: bool = False, filter_data: bool = False, num_lines: 
         print('Dropping tables:', tables_to_drop)
         sql.drop_table(', '.join(tables_to_drop))
         sql.drop_view('view_crew')
-        sql.print_tables()
+        # sql.print_tables()
     tsv_to_sql_name('data/name.basics.tsv', sql, num_lines)
     tsv_to_sql_title('data/title.basics.tsv', sql, num_lines)
     tsv_to_sql_crew('data/title.crew.tsv', sql, num_lines)
