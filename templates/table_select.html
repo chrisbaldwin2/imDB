@@ -23,6 +23,10 @@
                 <input type="hidden" name="selected_tables" value="{{ table }}" />
             {% endfor %}
             </p>
+            <h3>Show types:</h3>
+            {% for show_type in show_types %}
+            <input type="checkbox", name="show_type", value="{{ show_type }}" checked>{{ show_type }}<br>
+            {% endfor %}
             <h3>Select columns to display:</h3>
             {% for column in columns %}
                 <input type="checkbox" name="selected_columns" value="{{ column }}" checked>{{ column }}<br>

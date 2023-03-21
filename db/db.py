@@ -70,14 +70,14 @@ class MySQLDatabase:
         if commit:
             self.connection.commit()
 
-    def select(self, table, columns=["*"], condition="", limit=None):
+    def select(self, table, columns=["*"], condition="", limit=None, unique=False):
         table = ', '.join(table) if isinstance(table, list) or isinstance(table, tuple) else table
-        sql_query = f"SELECT {', '.join(columns)} FROM {table}"
+        sql_query = f"SELECT {'DISTINCT ' if unique else ''}{', '.join(columns)} FROM {table}"
         if condition:
             sql_query += f" WHERE {condition}"
         if limit:
             sql_query += f" LIMIT {limit}"
-        # print(sql_query)
+        print(sql_query)
         self.cursor.execute(sql_query)
         return self.cursor.fetchall()
     

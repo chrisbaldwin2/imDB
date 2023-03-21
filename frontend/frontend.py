@@ -196,6 +196,7 @@ def table_select():
     columns = []
     selected_tables=[]
     selected_columns = []
+    show_types = []
     # print(f'{request.form = }')
     if request.method == 'POST':
         # print(f'{request.form = }')
@@ -211,8 +212,10 @@ def table_select():
             return redirect(url_for("table", finder=finder, tables=selected_tables, columns=selected_columns))
         for table in selected_tables:
             columns.extend(sql.get_columns(table))
+            show_types = [v[0] for v in sql.select(['title_basics'], columns=['titleType'], unique=True)]
+
         # print(columns)
-    return render_template(template, finder=finder, tables=tables, columns=columns, selected_tables=selected_tables, table_url=url_for("table", tables=selected_tables, columns=selected_columns), table_select_url=url_for("table_select"))
+    return render_template(template, finder=finder, tables=tables, columns=columns, selected_tables=selected_tables, show_types=show_types, table_url=url_for("table", tables=selected_tables, columns=selected_columns), table_select_url=url_for("table_select"))
 
 # Create a template for the login page
 @app.route('/table', methods=['POST'])
@@ -228,6 +231,11 @@ def table():
             tables = [f"""(name_basics NATURAL JOIN view_crew NATURAL JOIN title_basics)"""]
             # print(tables)
         condition = "" if not last else f"{last[0]}const > '{last}'"
+        if request.form.getlist("show_type"):
+            show_types = request.form.getlist("show_type")
+            if condition:
+                condition += " AND "
+            condition += f"titleType IN {tuple(show_types)}" if len(show_types) > 1 else f"titleType = '{show_types[0]}'"
         data = sql.select(tables, columns=columns, condition=condition, limit=1000)
         return data
     columns = request.form.getlist("selected_columns")
