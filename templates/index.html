@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>imDB</title>
+    </head>
+    <body>
+        <form action="{{ finder.get_url('table_select') }}" method="get">
+            <input type="submit" value="Goto Table Select">
+        </form>
+        <!-- Print name and title count -->
+        <h3> Name count: {{ name_count }}</h3>
+        <h3> Title count: {{ title_count }}</h3>
+        <!-- Name search -->
+        <form action="{{ finder.get_url('search_name') }}" method="post">
+            <input type="text" name="name" placeholder="Name">
+            <input type="submit" value="Search">
+        </form>
+        <!-- Title search -->
+        <form action="{{ finder.get_url('search_title') }}" method="post">
+            <input type="text" name="title" placeholder="Title">
+            <input type="submit" value="Search">
+        </form>
+    </body>
+</html>

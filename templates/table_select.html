@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Data from database</title>
+    </head>
+    <body>
+        {% if not columns %}
+        <form action="{{ finder.get_url('table_select') }}" method="post">
+            <h3>Select tables to display:</h3>
+            {% for table in tables %}
+                <input type="checkbox" name="selected_tables" value="{{ table }}">{{ table }}<br>
+            {% endfor %}
+            <input type="submit" value="Select columns">
+        </form>
+        {% else %}
+        <form action="{{ finder.get_url('table_select') }}" method="post">
+            <input name="refresh_tables" type="submit" value="Refresh tables">
+        </form>
+        <form action="{{ finder.get_url('table') }}" method="post">
+            <h3>Tables:</h3>
+            <p>
+            {% for table in selected_tables %}
+                {{ table }}<br>
+                <input type="hidden" name="selected_tables" value="{{ table }}" />
+            {% endfor %}
+            </p>
+            <h3>Select columns to display:</h3>
+            {% for column in columns %}
+                <input type="checkbox" name="selected_columns" value="{{ column }}" checked>{{ column }}<br>
+            {% endfor %}
+            <input type="submit" value="Display data">
+        {% endif %}
+        </form>
+    </body>
+</html>

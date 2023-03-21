@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>Selected name from database</title>
+    </head>
+    <body>
+        <form action="{{ finder.get_url('index') }}" method="get"> 
+            <input type="submit" value="Home">
+        </form>
+        <h1>Name: {{ data.primaryTitle }}</h1>
+        <p> Start year: {{ data.startYear }}</p>
+        <p> End year: {{ data.endYear }}</p>
+        <p> Runtime: {{ data.runtimeMinutes }} Minutes</p>
+        <p> Genres: {{ genres|join(', ') }}</p>
+        <h3> Cast:</h3>
+        <!-- Actors -->
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    {% for column in name_labels %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in names %}
+                    <tr>
+                        <td><a href="{{ finder.get_url('view_name', nconst=row[0]) }}">{{ row[0] }}</a></td>
+                        {% for i in range(name_labels|count - 1) %}
+                            <td>{{ row[i+1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- Writers -->
+        <h3> Writers:</h3>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    {% for column in writer_labels %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in writers %}
+                    <tr>
+                        <td><a href="{{ finder.get_url('view_name', nconst=row[0]) }}">{{ row[0] }}</a></td>
+                        {% for i in range(writer_labels|count - 1) %}
+                            <td>{{ row[i+1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- Directors -->
+        <h3> Directors:</h3>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    {% for column in director_labels %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in directors %}
+                    <tr>
+                        <td><a href="{{ finder.get_url('view_name', nconst=row[0]) }}">{{ row[0] }}</a></td>
+                        {% for i in range(director_labels|count - 1) %}
+                            <td>{{ row[i+1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>

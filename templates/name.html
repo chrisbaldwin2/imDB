@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Selected name from database</title>
+    </head>
+    <body>
+        <form action="{{ finder.get_url('index') }}" method="get"> 
+            <input type="submit" value="Home">
+        </form>
+        <h1>Name: {{ data.primaryName }}</h1>
+        <p> Birth year: {{ data.birthYear }}</p>
+        <p> Death year: {{ data.deathYear }}</p>
+        <p> Professions: {{ professions|join(', ') }}</p>
+        <h3> Titles:</h3>
+        <div style="overflow-x:auto;">
+            <table>
+                <tr>
+                    {% for column in title_labels %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in titles %}
+                    <tr>
+                        <td><a href="{{ finder.get_url('view_title', tconst=row[0]) }}">{{ row[0] }}</a></td>
+                        {% for i in range(title_labels|count - 1) %}
+                            <td>{{ row[i+1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>

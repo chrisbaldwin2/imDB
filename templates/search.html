@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>imDB Search</title>
+    </head>
+    <body>
+        <h1> Searching for '{{pattern}}' </h1>
+        <form action="{{ finder.get_url('index') }}" method="get"> 
+            <input type="submit" value="Home">
+        </form>
+        <div style="overflow-x:auto;">
+            <table border=".1">
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data %}
+                    <tr>
+                        {% for i in range(columns|count) %}
+                            {% if columns[i] == 'nconst' %} 
+                                <td><a href="{{ finder.get_url('view_name', nconst=row[i]) }}">{{ row[i] }}</a></td>
+                            {% elif columns[i] == 'tconst' %}
+                                <td><a href="{{ finder.get_url('view_title', tconst=row[i]) }}">{{ row[i] }}</a></td>
+                            {% else %}
+                                <td>{{ row[i] }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
