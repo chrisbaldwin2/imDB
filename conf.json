@@ -2,5 +2,5 @@
     "host":"localhost",
     "user":"<type username here>", 
     "password":"<type password here>",
-    "database":"testDB"
+    "database":"imDB"
 }

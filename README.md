@@ -13,6 +13,14 @@ To start, we source the pipenv shell and install the dependencies.
 $ pipenv shell
 $ pipenv install
 ```
+
+Now we need to create the sql database
+```bash
+$ mysql -u <user> -p <password>
+mysql> CREATE DATABASE <database>;
+mysql> exit
+```
+
 Next we need to add the login info for the MySQL credentials
 ```bash 
 $ python install.py \
@@ -21,6 +29,12 @@ $ python install.py \
     --password <password> \
     --database <database>
 ```
+Another option is to copy the example config file and edit it
+```bash
+$ cp conf.json secrets/secrets.json
+# edit secrets/secrets.json
+```
+
 Now we can run the download and ingest scripts
 ```bash
 $ python install.py \ 
